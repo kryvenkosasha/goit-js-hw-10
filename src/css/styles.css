@@ -1,25 +1,67 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-@import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+body {
+  font-family: 'Montserrat', sans-serif;
+}
 
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+.flatpickr-input {
+  border-radius: 4px;
+  width: 272px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+button {
+  font-weight: 500;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: #4e75ff;
+  border: none;
+  height: 40px;
+}
+button:hover {
+  background-color: #6c8cff;
+}
+
+button:disabled {
+  background-color: #cfcfcf;
+  color: #989898;
+}
+
+.timer {
+  display: flex;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.label {
   font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+}
 
-  color: #242424;
-  background-color: rgba(255, 255, 255, 0.87);
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  gap: 20px;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+label:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='number'] {
+  height: 40px;
+  border-radius: 8px;
+}
+
+input[type='radio'] {
+  border-radius: 8px;
 }

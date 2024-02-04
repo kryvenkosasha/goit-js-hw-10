@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const datetimePicker = document.getElementById('datetime-picker');
 const startButton = document.querySelector('[data-start]');
@@ -8,7 +10,6 @@ const hoursElement = document.querySelector('[data-hours]');
 const minutesElement = document.querySelector('[data-minutes]');
 const secondsElement = document.querySelector('[data-seconds]');
 
-// Ініціалізація flatpickr на полі вводу
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -19,7 +20,12 @@ const options = {
     const currentDate = new Date();
 
     if (selectedDate < currentDate) {
-      alert('Please choose a date in the future');
+      iziToast.show({
+        title: '',
+        message: 'Виберіть дату в майбутньому',
+        color: 'red',
+        position: 'topRight',
+      });
       startButton.disabled = true;
     } else {
       startButton.disabled = false;
@@ -31,7 +37,6 @@ flatpickr(datetimePicker, options);
 
 let countdownInterval;
 
-// Функція для запуску відліку часу
 function startCountdown() {
   const userSelectedDate = new Date(datetimePicker.value).getTime();
   const currentDate = new Date().getTime();
@@ -39,7 +44,6 @@ function startCountdown() {
 
   if (timeDifference <= 0) {
     clearInterval(countdownInterval);
-    alert('Timer has ended!');
     startButton.disabled = true;
     return;
   }
@@ -52,7 +56,6 @@ function startCountdown() {
 
     if (newTimeDifference <= 0) {
       clearInterval(countdownInterval);
-      alert('Timer has ended!');
       startButton.disabled = true;
       return;
     }
@@ -61,7 +64,6 @@ function startCountdown() {
   }, 1000);
 }
 
-// Функція для оновлення інтерфейсу таймера
 function updateTimerUI(timeDifference) {
   const { days, hours, minutes, seconds } = convertMs(timeDifference);
   daysElement.innerText = addLeadingZero(days);
@@ -70,12 +72,10 @@ function updateTimerUI(timeDifference) {
   secondsElement.innerText = addLeadingZero(seconds);
 }
 
-// Функція для додавання ведучого нуля до числа, якщо воно менше 10
 function addLeadingZero(value) {
   return value < 10 ? `0${value}` : `${value}`;
 }
 
-// Функція для перетворення мілісекунд у об'єкт {дні, години, хвилини, секунди}
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
@@ -90,7 +90,6 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-// Обробник натискання кнопки "Start"
 startButton.addEventListener('click', () => {
   startCountdown();
   startButton.disabled = true;
