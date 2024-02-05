@@ -10,6 +10,15 @@ const hoursElement = document.querySelector('[data-hours]');
 const minutesElement = document.querySelector('[data-minutes]');
 const secondsElement = document.querySelector('[data-seconds]');
 
+window.addEventListener('DOMContentLoaded', () => {
+  const currentDate = new Date();
+  if (datetimePicker.value && new Date(datetimePicker.value) < currentDate) {
+    startButton.disabled = true;
+  }
+});
+
+let countdownInterval;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -19,7 +28,7 @@ const options = {
     const selectedDate = selectedDates[0];
     const currentDate = new Date();
 
-    if (selectedDate < currentDate) {
+    if (!selectedDate || selectedDate < currentDate) {
       iziToast.show({
         title: '',
         message: 'Виберіть дату в майбутньому',
@@ -34,8 +43,6 @@ const options = {
 };
 
 flatpickr(datetimePicker, options);
-
-let countdownInterval;
 
 function startCountdown() {
   const userSelectedDate = new Date(datetimePicker.value).getTime();
@@ -65,6 +72,11 @@ function startCountdown() {
 }
 
 function updateTimerUI(timeDifference) {
+  if (timeDifference <= 0) {
+    startButton.disabled = true;
+    return;
+  }
+
   const { days, hours, minutes, seconds } = convertMs(timeDifference);
   daysElement.innerText = addLeadingZero(days);
   hoursElement.innerText = addLeadingZero(hours);
